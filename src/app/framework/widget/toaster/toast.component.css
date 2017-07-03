@@ -1,0 +1,15 @@
+
+.toast{
+  position: fixed;
+  -webkit-transform: translateZ(0);
+  width: 100%;
+  top: 0;
+  left:0;
+  line-height: 2.3;
+  font-size: 14px;
+  text-align: center;
+  color: #FFF;
+  z-index: 999;
+  -webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+}

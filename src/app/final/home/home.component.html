@@ -1,0 +1,11 @@
+<div>参与量：{{activityInfo.body?.joinCount}}</div>
+<div>浏览量：{{activityInfo.body?.pv}}</div>
+<div>投票数：{{activityInfo.body?.voteCount}}</div>
+<a routerLink="/commit" queryParamsHandling="preserve">跳转</a>
+<div>
+  <div *ngFor="let item of array">
+    <div>{{item.name}}</div>
+    <div>{{item.currentCount}}</div>
+    <button (click)="vote(item)">投票</button>
+  </div>
+</div>
