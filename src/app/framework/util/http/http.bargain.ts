@@ -24,11 +24,11 @@ export class HttpBargain {
   }
 
   /**
-   * @param data {activityId, pageNum, pageSize, type, orderBy, orderType}
+   * @param data {personId}
    * @param onFinal
    */
-  public load(data: any, onFinal?: any): Observable<any> {
-    return HttpHelper.request(this.http, `${this.endPoint}activity/vote/query`,
+  public getDetail(data: any, onFinal?: any): Observable<any> {
+    return HttpHelper.request(this.http, `${this.endPoint}activity/bargain/bargainDetail`,
       data, onFinal, RequestMethod.Post);
   }
 
@@ -43,16 +43,20 @@ export class HttpBargain {
   }
 
   /**
-   * @param data {openid, activityId, name, uploadImg, nickname, phoneNum, des, headImgUrl}
+   * @param data {openid, activityId, name, mobile, productId}
    * @param onFinal
    * @returns {Observable<any>}
    */
   public join(data: any, onFinal?: any): Observable<any> {
-    return HttpHelper.request(this.http, `${this.endPoint}activity/vote/in`, data, onFinal, RequestMethod.Post);
+    return HttpHelper.request(this.http, `${this.endPoint}activity/bargain/join`, data, onFinal, RequestMethod.Post);
   }
 
-  public getRank(activityId, itemId): Observable<any> {
-    return HttpHelper.request(this.http, `${this.endPoint}activity/vote/rank`,
-      {activityId, itemId}, RequestMethod.Get);
+  /**
+   * @param data {activityId, productId, pageNum, pageSize}
+   * @returns {Observable<any>}
+   */
+  public getRank(data: any, onFinal?: any): Observable<any> {
+    return HttpHelper.request(this.http, `${this.endPoint}activity/bargain/personList`,
+      data, onFinal, RequestMethod.Get);
   }
 }

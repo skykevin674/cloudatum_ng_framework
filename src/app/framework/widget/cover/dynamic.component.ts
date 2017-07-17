@@ -20,7 +20,7 @@ export class DynamicLoaderComponent {
     this.vcRef.clear();
     let componentRef = this.vcRef.createComponent(componentFactory);
     if (field) {
-      componentRef[field] = value;
+      componentRef.instance[field] = value;
     }
   }
 }

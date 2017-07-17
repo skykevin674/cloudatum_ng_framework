@@ -32,11 +32,11 @@ export class BargainBaseComponent extends ActivityComponent implements OnInit {
     }
   }
 
-  protected navigateToJoin() {
+  protected navigateToJoin(product: any) {
     console.log('navigate to join');
   }
 
-  protected navigateToDetail(my: any) {
+  protected navigateToDetail(my: any, product: any) {
     console.log(my);
   }
 
@@ -56,36 +56,35 @@ export class BargainBaseComponent extends ActivityComponent implements OnInit {
     if (!this.checkProductJoinDate(product)) {
       return;
     }
-    if (!direct) {
-      this.navigateToJoin();
-    } else {
-      if (this.my && this.my.productId === product.id) {
-        this.navigateToDetail(this.my);
-      } else {
-        this.loader.popLoader('正在查询');
-        this.http.search({productId: product.id, openid: this.openid}, () => {
-          this.loader.dismissLoader();
-        }).subscribe((my: any) => {
-          if (my.code === 0) {
-            this.navigateToDetail(my.body);
-          } else {
-            this.loader.popLoader('正在参与');
-            this.http.join({
-              openid: this.openid, activityId: this.activityId,
-              productId: product.id, name: this.name, mobile: this.mobile
-            }, () => {
-              this.loader.dismissLoader();
-            }).subscribe((data: any) => {
-              if (data.code === 0) {
-                this.onJoinSuccess(data);
-              } else {
-                this.onJoinFail(data);
-              }
-            });
-          }
-        });
-      }
+    if (this.my && this.my.code === 0) {
+      this.navigateToDetail(this.my.body, product);
+      return;
     }
+    this.http.search({productId: product.id, openid: this.openid}, () => {
+      this.loader.dismissLoader();
+    }).subscribe((my: any) => {
+      if (my.code === 0) {
+        this.navigateToDetail(my.body, product);
+      } else {
+        if (!direct) {
+          this.navigateToJoin(product);
+        } else {
+          this.loader.popLoader('正在参与');
+          this.http.join({
+            openid: this.openid, activityId: this.activityId,
+            productId: product.id, name: this.name, mobile: this.mobile
+          }, () => {
+            this.loader.dismissLoader();
+          }).subscribe((data: any) => {
+            if (data.code === 0) {
+              this.onJoinSuccess(data);
+            } else {
+              this.onJoinFail(data);
+            }
+          });
+        }
+      }
+    });
   }
 
   protected bargain(target: any) {
