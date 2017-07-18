@@ -41,7 +41,7 @@ export function CheckDate(callback?: string) {
 
 export function NeedRegister(callback?: string) {
   return (target: any, key: string, descriptor: PropertyDescriptor) => {
-    if (json.fans && !json.fans.body.phoneNum) {
+    if (json.fans && json.fans.code === 0 && !json.fans.body.phoneNum) {
       descriptor.value = sendMessage(target, callback);
     }
     return descriptor;
